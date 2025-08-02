@@ -17,6 +17,6 @@ onMounted(() => {
     <p>snake length: {{ board.snakeTilesPosition.length  }} / {{ settings.boardSize * settings.boardSize  }}</p>
   </div>
 
-  <SnakeGameBoard class="max-w-[390px] pt-1 mx-auto shadow" />
+  <SnakeGameBoard class="max-w-[650px] pt-1 mx-auto shadow pb-2" />
 </template>
 <style></style>
