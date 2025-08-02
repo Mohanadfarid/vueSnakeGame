@@ -6,17 +6,17 @@ import type { Direction } from '@/types/direction'
 import Directions from '@/constants/Directions'
 import { generateRandomApplePosition } from '@/utils/generateRandomApplePosition'
 import DirectionsOpposites from '@/constants/DirectionsOpposites'
+import { useSettings } from './settings'
 
 export const useBoard = defineStore('board', () => {
+const settings = useSettings()
+
   const boardBody = ref<Array<Array<BoardBlock>>>([])
-  const boardSize = ref(30)
+
   const boardIntervalId = ref()
   const isGameActive = computed(()=>boardIntervalId.value)
 
-  // colors
-  const boardColor = ref('#f4f4f4')
-  const appleColor = ref('#16a34a')
-  const snakeColor = ref('#065f46')
+
 
 
   const snakeTilesPosition = ref<[number, number][]>([])
@@ -35,7 +35,7 @@ export const useBoard = defineStore('board', () => {
       [0, 1],
       [0, 2],
     ]
-    boardBody.value = generateBoard(boardSize.value)
+    boardBody.value = generateBoard(settings.boardSize)
     snakeMovementDirection.value = 'RIGHT'
 
     insertApple()
@@ -67,11 +67,11 @@ export const useBoard = defineStore('board', () => {
 
   const calculateSnakeHeadNewXandY = (direction: Direction) => {
     const snakeHeadPosition = snakeTilesPosition.value[snakeTilesPosition.value.length - 1]
-    let newX = (snakeHeadPosition[0] + Directions[direction][0]) % boardSize.value
-    let newY = (snakeHeadPosition[1] + Directions[direction][1]) % boardSize.value
+    let newX = (snakeHeadPosition[0] + Directions[direction][0]) % settings.boardSize
+    let newY = (snakeHeadPosition[1] + Directions[direction][1]) % settings.boardSize
 
-    if (newX < 0) newX += boardSize.value
-    if (newY < 0) newY += boardSize.value
+    if (newX < 0) newX += settings.boardSize
+    if (newY < 0) newY += settings.boardSize
 
     const newTilePosition: [number, number] = [newX, newY]
     return newTilePosition
@@ -114,13 +114,10 @@ export const useBoard = defineStore('board', () => {
 
   return {
     boardBody,
-    boardSize,
     snakeMovementDirection,
     snakeTilesPosition,
     isGameActive,
-    appleColor,
-    snakeColor,
-    boardColor,
+
     inilizeBoard,
     moveSnake,
     operateGame,

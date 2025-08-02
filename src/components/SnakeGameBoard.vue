@@ -3,8 +3,10 @@ import { useBoard } from '@/stores/board';
 import SnakeGameBoardTile from './SnakeGameBoardTile.vue';
 import { useGameControlles } from '@/composables/useGameControlles';
 import AppButton from './AppButton.vue';
+import { useSettings } from '@/stores/settings';
 const board = useBoard()
-const gridStyles = `repeat(${board.boardSize}, minmax(0, 1fr))`
+const settings = useSettings()
+const gridStyles = `repeat(${settings.boardSize}, minmax(0, 1fr))`
 useGameControlles()
 </script>
 <template>
