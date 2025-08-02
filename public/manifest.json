@@ -1,0 +1,21 @@
+{
+  "theme_color": "#065f46",
+  "background_color": "#f4f4f4",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    { "purpose": "any", "sizes": "512x512", "src": "icon512_rounded.png", "type": "image/png" }
+  ],
+  "orientation": "any",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "en-GB",
+  "name": "Snake",
+  "short_name": "Snake ",
+  "start_url": ".",
+  "description": "clasic snake game made by mohanad"
+}
