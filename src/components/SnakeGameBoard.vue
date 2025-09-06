@@ -12,6 +12,8 @@ useGameControlles()
 <template>
   <div>
     <div class="flex justify-center my-2">
+      {{ board.snakeMovementDirection }}
+      {{ board.movmentQueue }}
       <AppButton v-if="!board.isGameActive" class="mx-1 py-1 px-3" @click="board.operateGame">
         Start</AppButton
       >
@@ -27,12 +29,12 @@ useGameControlles()
     </div>
 
     <div class="flex flex-col items-center gap-1 mt-3">
-      <AppButton class="py-1 px-6" @click="board.changeSnakeMovementDirection('UP')"> up</AppButton>
+      <AppButton class="py-1 px-6 border" @click="board.changeSnakeMovementDirection('UP')"> up</AppButton>
       <div class="flex gap-1">
-        <AppButton class="py-1 px-6 me-3" @click="board.changeSnakeMovementDirection('LEFT')"> left</AppButton>
-        <AppButton class="py-1 px-6 ms-3" @click="board.changeSnakeMovementDirection('RIGHT')"> right</AppButton>
+        <AppButton class="py-1 px-6 me-3 border" @click="board.changeSnakeMovementDirection('LEFT')"> left</AppButton>
+        <AppButton class="py-1 px-6 ms-3 border" @click="board.changeSnakeMovementDirection('RIGHT')"> right</AppButton>
       </div>
-      <AppButton class="py-1 px-6" @click="board.changeSnakeMovementDirection('DOWN')"> down</AppButton>
+      <AppButton class="py-1 px-6 border" @click="board.changeSnakeMovementDirection('DOWN')"> down</AppButton>
     </div>
   </div>
 </template>

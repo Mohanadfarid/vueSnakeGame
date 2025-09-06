@@ -1,32 +1,45 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { generateBoard } from '@/utils/generateBoard'
-import type { BoardBlock } from '@/types/boardBlock'
-import type { Direction } from '@/types/direction'
+
+import type { BoardBlock, Direction, MovmentQueueType } from '@/types'
 import Directions from '@/constants/Directions'
 import { generateRandomApplePosition } from '@/utils/generateRandomApplePosition'
 import DirectionsOpposites from '@/constants/DirectionsOpposites'
 import { useSettings } from './settings'
 
 export const useBoard = defineStore('board', () => {
-const settings = useSettings()
+  const settings = useSettings()
 
   const boardBody = ref<Array<Array<BoardBlock>>>([])
 
   const boardIntervalId = ref()
-  const isGameActive = computed(()=>boardIntervalId.value)
-
-
-
+  const isGameActive = computed(() => boardIntervalId.value)
 
   const snakeTilesPosition = ref<[number, number][]>([])
   const snakeMovementDirection = ref<Direction>('RIGHT')
-  const lastSnakeMovmentDirection = ref<Direction>('RIGHT')
+  const movmentQueue = ref<MovmentQueueType>([])
 
   const changeSnakeMovementDirection = (direction: Direction) => {
+
+    // deny movment in the opposite direction 
+    if (movmentQueue.value.length===0 && DirectionsOpposites[snakeMovementDirection.value] === direction) return
+
+    // deny movement if in the same direction
+    if (movmentQueue.value.length===0 && snakeMovementDirection.value === direction) return
+
+    const lastMovementInput = movmentQueue.value[movmentQueue.value.length - 1]
     // deny movment in the opposite direction
-    if (direction === DirectionsOpposites[lastSnakeMovmentDirection.value]) return
-    snakeMovementDirection.value = direction
+    if (DirectionsOpposites[lastMovementInput] === direction) return
+
+    // deny movement if in the same direction
+    if (lastMovementInput === direction) return
+
+    // remove the oldest movment if the queue is already 2 in lenght
+    if (movmentQueue.value.length === 2) movmentQueue.value.shift()
+
+    // finally push the new movement direction
+    movmentQueue.value = [...movmentQueue.value, direction] as MovmentQueueType
   }
 
   const inilizeBoard = () => {
@@ -45,6 +58,9 @@ const settings = useSettings()
   const operateGame = () => {
     if (boardIntervalId.value) return
     boardIntervalId.value = setInterval(() => {
+      // if movement stack have values we use them else keep the direction as its
+      const newMovement = movmentQueue.value.shift()
+      snakeMovementDirection.value = newMovement || snakeMovementDirection.value
       moveSnake(snakeMovementDirection.value)
     }, 80)
   }
@@ -78,8 +94,6 @@ const settings = useSettings()
   }
 
   const moveSnake = (direction: Direction) => {
-    lastSnakeMovmentDirection.value = direction
-
     // first we move the head of the sanke
     const [newX, newY] = calculateSnakeHeadNewXandY(direction)
     snakeTilesPosition.value.push([newX, newY])
@@ -117,7 +131,7 @@ const settings = useSettings()
     snakeMovementDirection,
     snakeTilesPosition,
     isGameActive,
-
+    movmentQueue,
     inilizeBoard,
     moveSnake,
     operateGame,
