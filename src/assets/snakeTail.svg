@@ -1,0 +1,7 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- Connected rattles (centered) -->
+  <ellipse cx="24" cy="28" rx="5"  ry="3"  stroke="currentColor" stroke-width="2" fill="currentColor"/>
+  <ellipse cx="24" cy="33.5" rx="4"  ry="2.5" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+  <ellipse cx="24" cy="38" rx="3"  ry="2"  stroke="currentColor" stroke-width="2" fill="currentColor"/>
+</svg>

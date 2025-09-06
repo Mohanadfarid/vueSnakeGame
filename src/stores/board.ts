@@ -21,19 +21,16 @@ export const useBoard = defineStore('board', () => {
   const movmentQueue = ref<MovmentQueueType>([])
 
   const changeSnakeMovementDirection = (direction: Direction) => {
-
-    // deny movment in the opposite direction 
-    if (movmentQueue.value.length===0 && DirectionsOpposites[snakeMovementDirection.value] === direction) return
-
-    // deny movement if in the same direction
-    if (movmentQueue.value.length===0 && snakeMovementDirection.value === direction) return
-
     const lastMovementInput = movmentQueue.value[movmentQueue.value.length - 1]
+
+    // single source of truth based on movment queue or snake direction
+    const baseDirection = movmentQueue.value.length===0?snakeMovementDirection.value:lastMovementInput
+
     // deny movment in the opposite direction
-    if (DirectionsOpposites[lastMovementInput] === direction) return
+    if (DirectionsOpposites[baseDirection] === direction) return
 
     // deny movement if in the same direction
-    if (lastMovementInput === direction) return
+    if (baseDirection === direction) return
 
     // remove the oldest movment if the queue is already 2 in lenght
     if (movmentQueue.value.length === 2) movmentQueue.value.shift()
