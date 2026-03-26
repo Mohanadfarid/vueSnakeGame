@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { BoardBlock } from '@/types/boardBlock';
-import { computed } from 'vue';
+import { useSettings } from '@/stores/settings'
+import type { BoardBlock } from '@/types/boardBlock'
+import { computed } from 'vue'
 
+const settingsStore = useSettings()
 const props = defineProps<{
-    tile: BoardBlock
+  tile: BoardBlock
 }>()
 
 const tileClasses = computed(() => ({
@@ -12,7 +14,6 @@ const tileClasses = computed(() => ({
     'bg-[#f4f4f4]': props.tile.status ==='inactive'
 
 }))
-
 </script>
 <template>
 
